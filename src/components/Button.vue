@@ -5,6 +5,11 @@
 <script>
 export default {
     name: 'Button',
+    data(){
+        return{
+            addTask: false
+        }
+    },
     props: {
         text: {
             type: String,
@@ -14,9 +19,12 @@ export default {
     },
     methods: {
         onClick() {
-            console.log("You clicked!");
+            this.$emit('btn-click')
         }
-    }
+    },
+    emits: [
+        'add-task-form'
+    ]
 }
 </script>
 

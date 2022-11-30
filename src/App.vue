@@ -3,7 +3,10 @@
 
   <div class="container">
 
-    <Header title="Task Tracker App"/>
+    <Header @add-task-form="showForm" title="Task Tracker App" :showAddTask="showAddTask"/>
+
+    <AddTask v-if="showAddTask" @add-task="addTask"/>
+
     <Tasks @toggle-task="toggleTask" @delete-task="deleteTask" :tasks="tasks"/>
     
   </div>
@@ -14,19 +17,23 @@
 
 import Header from './components/Header.vue'
 import Tasks from './components/Tasks.vue'
+import AddTask from './components/AddTask.vue'
 
 export default {  
   name: 'App',
   components: {
     Header,
-    Tasks
+    Tasks,
+    AddTask,
   },
   emits: [
     'delete-task',
+    'add-task-form'
   ],
   data() {
     return {
-      tasks:[]
+      tasks:[],
+      showAddTask: false,
     }
   },
   methods: {
@@ -39,6 +46,12 @@ export default {
     toggleTask(id){
       let toggled = this.tasks.find((task) => task.id === id)
       toggled.reminder = !toggled.reminder
+    },
+    addTask(newTask){
+      this.tasks = [...this.tasks, newTask];
+    },
+    showForm(){
+      this.showAddTask = !this.showAddTask;
     }
   },
   created() {

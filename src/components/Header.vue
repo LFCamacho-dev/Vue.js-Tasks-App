@@ -2,7 +2,10 @@
 <template>
     <header>
         <h1>{{title}}</h1>
-        <Button text="Add Task" color="green"/>
+        <Button 
+            @btn-click="$emit('add-task-form')" 
+            :text="showAddTask ? 'Close' : 'Add Task'" 
+            :color="showAddTask ? 'orange' : 'green' "/>
     </header>
 </template>
 
@@ -16,11 +19,15 @@ export default {
         title: {
             type: String,
             default: "HOLA!",
-        }
+        },
+        showAddTask: Boolean,
     },
     components: {
         Button,
-    }
+    },
+    emits: [
+        'add-task-form',
+    ],
 }
 </script>
 
