@@ -5,26 +5,25 @@
 
     <Header @add-task-form="showForm" title="Task Tracker App" :showAddTask="showAddTask"/>
 
-    <AddTask v-if="showAddTask" @add-task="addTask"/>
+    
 
-    <Tasks @toggle-task="toggleTask" @delete-task="deleteTask" :tasks="tasks"/>
+    <router-view :showAddTask="showAddTask"></router-view>
     
   </div>
-
+  
+  <Footer />
 </template>
 
 <script>
 
 import Header from './components/Header.vue'
-import Tasks from './components/Tasks.vue'
-import AddTask from './components/AddTask.vue'
+import Footer from './components/Footer.vue'
 
 export default {  
   name: 'App',
   components: {
     Header,
-    Tasks,
-    AddTask,
+    Footer,
   },
   emits: [
     'delete-task',
@@ -32,73 +31,14 @@ export default {
   ],
   data() {
     return {
-      tasks:[],
+      // tasks:[],
       showAddTask: false,
     }
   },
   methods: {
-    async deleteTask(id){
-      if(confirm('Are you sure?')) {
-        const res = await fetch(`api/tasks/${id}`, {
-          method: 'DELETE',
-        })
-
-        res.status === 200 ? (this.tasks = this.tasks.filter((task) => task.id !== id)) : alert('Error deleting task.')
-
-      }
-    },
-    async toggleTask(id){
-      const taskToToggle =  await this.fetchTask(id)
-
-      const updTask = {...taskToToggle, reminder: !taskToToggle.reminder}
-
-      const res = await fetch(`api/tasks/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(updTask),
-      })
-
-      const data = await res.json()
-
-      let toggled = this.tasks.find((task) => task.id === id)
-
-      // toggled.reminder = !toggled.reminder
-      toggled.reminder = data.reminder
-
-
-    },
-    async addTask(newTask){
-
-      const res = await fetch('api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(newTask)
-      })
-
-      const data = await res.json()
-      this.tasks = [...this.tasks, data];
-
-    },
     showForm(){
       this.showAddTask = !this.showAddTask;
-    },
-    async fetchTasks(){
-      const res = await fetch('api/tasks');
-      const data = await res.json()
-      return data;
-    },
-    async fetchTask(id){
-      const res = await fetch(`api/tasks/${id}`);
-      const data = await res.json()
-      return data;
     }
-  },
-  async created() {
-    this.tasks = await this.fetchTasks()
   },
 }
 </script>

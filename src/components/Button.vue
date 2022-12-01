@@ -20,14 +20,7 @@ export default {
     methods: {
         onClick() {
             this.$emit('btn-click')
-        }
+        },
     },
-    emits: [
-        'add-task-form'
-    ]
 }
 </script>
-
-<style scoped>
-
-</style>

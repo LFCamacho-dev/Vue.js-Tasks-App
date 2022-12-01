@@ -17,12 +17,6 @@
       "text": "Grosery Shopping",
       "day": "March 10th at 11:45am",
       "reminder": false
-    },
-    {
-      "text": "Add new task to tracker",
-      "day": "Today, now pm",
-      "reminder": false,
-      "id": 4
     }
   ]
 }
